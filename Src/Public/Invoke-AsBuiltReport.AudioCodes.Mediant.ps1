@@ -10,6 +10,7 @@ function Invoke-AsBuiltReport.AudioCodes.Mediant {
         Twitter:
         Github:
         Credits:        Iain Brighton (@iainbrighton) - PScribo module
+                        Shane Hoey (@ShaneHoey) - for his work on the Mediant PowerShell module, without which this would be impossible.
 
     .LINK
         https://github.com/AsBuiltReport/AsBuiltReport.AudioCodes.Mediant
@@ -46,10 +47,57 @@ function Invoke-AsBuiltReport.AudioCodes.Mediant {
     # Used to set values to TitleCase where required
     $TextInfo = (Get-Culture).TextInfo
 
-	# Update/rename the $System variable and build out your code within the ForEach loop. The ForEach loop enables AsBuiltReport to generate an as built configuration against multiple defined targets.
+# Setup TLS exclsuions
+add-type @"
+de    using System.Net;
+    using System.Security.Cryptography.X509Certificates;
+    public class TrustAllCertsPolicy : ICertificatePolicy {
+        public bool CheckValidationResult(
+            ServicePoint srvPoint, X509Certificate certificate,
+            WebRequest request, int certificateProblem) {
+            return true;
+        }
+    }
+"@
+    [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+
 
     #region foreach loop
-    foreach ($System in $Target) {
+    foreach ($Mediant in $Target) {
+    #region input checks
+        #First we need to figure out if the target is an Ini file (Config backup) or a live device
+        if ($Mediant -like "*.ini")
+        {
+            If (Test-Path $Mediant)
+            {
+                $ConfigFile = $Mediant
+                $LiveDevice = $False
+            } else {
+                Write-PScriboMessage -Plugin "Mediant" -Message "Unable to open target INI file $mediant, skipping" -IsWarning
+                Continue
+            }
+
+        }
+        elseif ($Mediant -like "http*")
+        {
+            Try
+            {
+                Invoke-WebRequest -Uri $Mediant -Method Get -DisableKeepAlive -TimeoutSec 2 -ErrorAction Stop
+                $LiveDevice = $Mediant
+                $ConfigFile = $false
+            }
+            catch {
+                Write-PScriboMessage -Plugin "Mediant" -Message "Unable to open target SBC $mediant, skipping" -IsWarning
+                Continue
+            }
+
+        }
+        Else
+        {
+            Write-PScriboMessage -Plugin "Mediant" -Message "Cannot determine if $mediant, is a config file or live device. Skipping" -IsWarning
+            Continue
+        }
+    #endregion input checks
 
 
 

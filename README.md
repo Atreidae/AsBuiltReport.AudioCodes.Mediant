@@ -59,6 +59,9 @@ This report is compatible with the following PowerShell versions;
 PowerShell 5.1 or PowerShell 7, and the following PowerShell modules are required for generating a AudioCodes Mediant As Built Report.
 
 - [AsBuiltReport.AudioCodes.Mediant Module](https://www.powershellgallery.com/packages/AsBuiltReport.AudioCodes.Mediant/)
+- [Shane Hoey's AudioCodes Mediant PowerShell Module](https://www.powershellgallery.com/packages/mediant/) - Only required if connecting directly to the Mediant device
+
+### TODO Shanes module has an old certificate, need to update this
 
 ### :closed_lock_with_key: Required Privileges
 <!-- ********** Define required privileges ********** -->
