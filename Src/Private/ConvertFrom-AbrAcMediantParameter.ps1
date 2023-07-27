@@ -1,3 +1,17 @@
+ <#
+    .SYNOPSIS
+    Used by As Built Report to convert the parameter section of AudioCodes Mediant configuration file into a human readable object
+    Replaces ConvertFrom-MediantDocMediantParameter
+    .DESCRIPTION
+
+    .NOTES
+        Version:        0.1.0
+        Author:         James "UcMadScientist" Arber
+        Twitter:        @UCMadScientist
+        Github:         Atreidae
+        Credits:        Shane Hoey (@ShaneHoey) - for his work on the Mediant PowerShell module, without which this would be impossible.
+    #>
+
 function ConvertFrom-AbrAcMediantParameter {
     $item = 'Mediant'
     $result = New-Object $item

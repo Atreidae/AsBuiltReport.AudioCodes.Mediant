@@ -1,4 +1,4 @@
-function Import-AbrAMeClasses {
+Function Import-AbrAMeClasses {
     <#
     .SYNOPSIS
     Used by As Built Report to retrieve Teams Tenant information
@@ -11,6 +11,10 @@ function Import-AbrAMeClasses {
         Github:         Atreidae
         Credits:        Shane Hoey (@ShaneHoey) - for his work on the Mediant PowerShell module, without which this would be impossible.
     #>
+
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', '', Scope='Function')] #but im actually importing more than one of something!
+    Param ()
+
 #Lists
 class Mediant {
   [string]$Mediant_Board

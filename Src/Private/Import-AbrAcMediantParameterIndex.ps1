@@ -1,7 +1,7 @@
 function Import-AbrAcMediantParameterIndex {
     <#
     .SYNOPSIS
-    Creates a table, translating the AudioCodes Mediant settings into human readable text
+    Creates a table, used for translating the AudioCodes Mediant settings into human readable text
     .DESCRIPTION
 
     .NOTES

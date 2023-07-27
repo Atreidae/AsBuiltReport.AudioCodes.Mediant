@@ -1,3 +1,17 @@
+ <#
+    .SYNOPSIS
+    Used by As Built Report to update a list in a stored INI configuration file into a human readable object
+    Replaces Shanes ConvertFrom-MediantDocList function
+    .DESCRIPTION
+
+    .NOTES
+        Version:        0.1.0
+        Author:         James "UcMadScientist" Arber
+        Twitter:        @UCMadScientist
+        Github:         Atreidae
+        Credits:        Shane Hoey (@ShaneHoey) - for his work on the Mediant PowerShell module, without which this would be impossible.
+    #>
+
 function ConvertFrom-AbrAcMediantDocList
 {
   [CmdletBinding()]
