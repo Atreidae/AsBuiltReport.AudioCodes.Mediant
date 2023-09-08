@@ -60,7 +60,7 @@ function ConvertFrom-AbrAcMediantDocTable
                 }
                 catch
                 {
-                    Write-PscriboMessage -Plugin 'AcDocTbl' -Message "*** Parameter not documented ->  [$item]$($objectIndex[$i])"  -IsWarning
+                    Write-PscriboMessage -Plugin 'AcDocTbl' -Message "Parameter not documented ->  [$item]$($objectIndex[$i])"  -IsWarning
                     $Script:MissingParameter = $TRUE
                     $result | Add-Member -MemberType NoteProperty -Name ($objectIndex[$i]) -Value $($object.$o.trim().trimend(';').Split(',')[$i].trim().trimstart([char]0x0022).trimend([char]0x0022))
                     Write-PscriboMessage -Plugin 'AcDocTbl' -Message "$($objectIndex[$i]) = $($result.($objectIndex[$i]))" -IsDebug
@@ -69,11 +69,11 @@ function ConvertFrom-AbrAcMediantDocTable
         $result
     }
     Update-TypeData -TypeName "$item" -MemberType Scriptmethod -MemberName 'view' -Value { $this  } -Force
-    Write-PscriboMessage -Plugin 'AcDocTbl' -Message "Converted:  $item"  -IsDebug
+    Write-PscriboMessage -Plugin 'AcDocTbl' -Message "Converted:$item"  -IsDebug
   }
   catch
   {
-    Write-PscriboMessage -Plugin 'AcDocTbl' -Message "Skipping:   $item"  -IsWarning
+    Write-PscriboMessage -Plugin 'AcDocTbl' -Message "Skipping: $item"  -IsWarning
   }
 
 }

@@ -47,16 +47,20 @@ function Invoke-AsBuiltReport.AudioCodes.Mediant {
     # Used to set values to TitleCase where required
     $TextInfo = (Get-Culture).TextInfo
 
-    # Import Language File
+
+    # Import Custom Classes and variables (These arent functions yet as im running into scoping issues)
+    . $PSScriptRoot\..\Private\Import-AbrAMeClasses.ps1
+    . $PSScriptRoot\..\Private\Import-AbrAcMediantDefaultParameter.ps1
+    . $PSScriptRoot\..\Private\Import-AbrAcMediantParameterIndex.ps1
+
+      # Import Language File
     #todo test this works.
-    $Script:MediantDocText = ((Get-Content "$PSScriptRoot\..\..\Res\AudioCodes.Mediant.$($Options.language)").content -split '\n') | ConvertFrom-Json
+    Write-host "language"
+    Write-host $options.Language
+    Write-host "Lang above"
+   #$Script:MediantDocText = ((Get-Content "$PSScriptRoot\..\..\Res\AudioCodes.Mediant.$($Options.Language).json").content -split '\n') | ConvertFrom-Json
+    $Script:MediantDocText = ((Get-Content "$PSScriptRoot\..\..\Res\AudioCodes.Mediant.en-us.json").content -split '\n') | ConvertFrom-Json
 
-    # Import Custom Classes
-    Import-AbrAMeClasses
-
-    # Import Handy Variables
-    Import-AbrAcMediantDefaultParameter
-    Import-AbrAcMediantParameterIndex
 
     #region foreach loop
     foreach ($Mediant in $Target) {
@@ -93,7 +97,7 @@ function Invoke-AsBuiltReport.AudioCodes.Mediant {
         $MediantConfigini = Get-Content -Path $Mediant
 
         #Process ini into sections
-        $ini = convertfrom-MediantDocConfigIni -MediantConfigini ($MediantConfigini).replace('[ ', '[').replace(' ]', ']')
+        $ini = ConvertFrom-AbrAcMediantConfigIni -MediantConfigini ($MediantConfigini).replace('[ ', '[').replace(' ]', ']')
         Remove-Item MediantConfigini -ErrorAction SilentlyContinue
 
         #Convert INI into custom objects
@@ -111,14 +115,14 @@ function Invoke-AsBuiltReport.AudioCodes.Mediant {
             Write-Warning 'Missing Parameters Found'
             Write-Warning '*****************************'
             Write-Warning 'Please help improve this script by logging an issue on github.com/shanehoey/mediantdoc for the above missing parameters'
-            Start-Sleep -Seconds 5
+
 
         }
         #endregion ini to objects
 
         #region report
         Section -Style Heading1 "Basic Appliance Information" {
-            Get-AbrCsTenant
+            Get-AbrAcOverview
         }
         PageBreak
 

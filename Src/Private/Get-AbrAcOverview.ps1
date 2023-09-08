@@ -14,11 +14,13 @@
 
 function Get-AbrAcOverview {
     $heading = 'Mediant Overview'
-    Section -Style Heading2 $heading
-    Paragraph = $Script:MediantDocText."text$($heading.replace(' ','').replace('&','').replace('/',''))"
+    $text = $Script:MediantDocText."text$($heading.replace(' ','').replace('&','').replace('/',''))"
+    Section -Style Heading2 $heading {
+    Paragraph $text
+    }
 
     $heading = 'Device Details'
-    Section -Style Heading2 $heading
+    Section -Style Heading2 $heading {
     Paragraph $Script:mediantDocText."text$($heading.replace(' ','').replace('&','').replace('/',''))"
 
     $TableParams = @{
@@ -29,10 +31,10 @@ function Get-AbrAcOverview {
         $TableParams['Caption'] = "- $($TableParams.Name)"
     }
     $script:Mediant.viewDoc() | Table @TableParams
-
+    }
 
     $heading = 'Key Features'
-    Section -Style Heading2 $heading
+    Section -Style Heading2 $heading {
     Paragraph = ($Mediant.viewKeyfeatures().where({ $_ -notmatch '^$' }) | Out-String)
-
+    }
 }
